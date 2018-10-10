@@ -89,6 +89,9 @@ body{
 .left div{
     display: none;
 }
+.left{
+    color: #999999;
+}
 .left ul{
     display: none;
     background: #ffffff;
@@ -104,4 +107,259 @@ body{
     padding: 6px 10px;
 }
 /* 顶部结束 */
+/* 搜索开始 */
+.header2-all{
+    height: 115px;
+    background: #ffffff;
+}
+.header2{
+    width: 1190px;
+    margin: 0 auto;
+    position: relative
+}
+.header2-left-all{
+    float: left;
+}
+.header2-left-logo{
+    float: left;
+    width: 228px;
+    height: 75px;
+    text-align: center;
+    padding: 20px 0;
+}
+.header2-left-logo a{
+    display: block;
+    width: 228px;
+    height: 75px;
+}
+.header2-left-logo a img{
+    width: 100%;
+    height: 100%;
+}
+.header2-left-logoa{
+    float: left;
+    width: 228px;
+    height: 75px;
+    text-align: center;
+    padding: 20px 0;
+}
+.header2-left-logoa a{
+    display: block;
+    width: 228px;
+    height: 75px;
+}
+.header2-right-all{
+    float: right;
+}
+.header2-car{
+    position: relative;
+    width: 130px;
+    height: 38px;background: #fafafa;
+    float: right;
+    margin-top: 23px;
+    border: 1px solid #eaeaea;
+}
+.header2-car a{
+    display: block;
+    width: 114px;
+    height: 38px;
+    line-height: 38px;
+    padding-left: 16px;
+}
+.header2-car a span{
+    width: 50px;
+    height: 38px;
+    margin-left: 5px;
+    color: #cc0000;
+    line-height: 38px;
+}
+.header2-car a i{
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: #cc0000;
+    border: none;
+    border-radius: 50%;
+    position: absolute;
+    color: #ffffff;
+    margin: -5px 0;
+    text-align: center;
+    left: 80px;
+    top: 0;
+    line-height: 20px;
+}
+.header2-car-down{
+    position: absolute;
+    right: -1px;
+    top: 37px;
+    z-index: 2222;
+    width: 320px;
+    background: #ffffff;
+    border: 1px solid #999999;
+    display: none;
+}
+.car-down{
+    max-height: 380px;
+}
+.car-down li{
+    padding: 10px;
+    border-bottom: 1px solid #e1e1e1;
+}
+.car-down li img{
+    width: 50px;
+}
+.car-down li span{
+    text-align: center;
+}
+.header2-right-text{
+    width: 530px;
+    height: 100px;
+    margin-right: 40px;
+    float: left;
+}
+.header-text{
+    height: 36px;
+    border: 2px solid #cc0000;
+    margin-top: 24px;
+}
+/* .text{
+    border: 1px solid #cc0000;
+} */
+.tex1{
+    float: left;
+    display: block;
+    width: 80px;
+    position: relative;
+}
+.tex1 dl{
+    background: #ffffff;
+    width: 80px;
+    height: 36px;
+    font-size: 14px;
+    position: relative;
+}
+.tex1 dl dt{
+    border-right: 2px solid #cc0000;
+    height: 36px;
+    line-height: 36px;
+    padding-left: 10px;
+    background: #f5f5f5;
+}
+.tex1 dl dd{
+    display: none;
+    border-bottom: 2px solid #cc0000;
+    width: 82px;
+    background: #ffffff;
+    position: absolute;
+    left: -2px;
+    top: 36px;
+    z-index: 999;
+}
+.tex1 dl dd a:nth-child(1){
+    color: #e30b20;
+    height: 22px;
+    display: block;
+    line-height: 22px;
+    border-right: 2px solid #e50012;
+    border-left: 2px solid #e50012;
+    padding-left: 10px;
+}
+.tex1 dl dd a:nth-child(2){
+    color: #666666;
+    height: 22px;
+    display: block;
+    line-height: 22px;
+    border-right: 2px solid #e50012;
+    border-left: 2px solid #e50012;
+    padding-left: 10px;
+}
+.text2{
+    position: relative;
+    top:-2px;
+}
+.text2 input{
+    width: 68%;
+    height: 34px;
+    padding-left: 10px;
+    font-size: 14px;
+}
+.text3{
+    float: right;
+    position: relative;
+    top:-40px;
+}
+.text3 input{
+    width: 75px;
+    background: #cc0000;
+    height: 36px;
+    color: #ffffff;
+    text-align: center;
+    border: none;
+    font-size: 16px;
+    /* line-height: 36px; */
+}
+.header-hot{
+    margin-top: 10px;
+    height: 20px;
+}
+.header-hot li{
+    float: left;
+    margin-left: 20px;
+}
+.header-hot li a{
+    color: #999999;
+}
+.header-hot li:nth-child(1){
+    margin-left: 0;
+    color: #cc0000;
+}
+/* 搜索结束 */
+/* 导航开始 */
+.header3-all{
+    /* width: 100%;
+    height: 100%; */
+    border-bottom: 2px solid #e50012;
+    background: #ffffff;
+    padding-top: 10px;
+}
+.header3{
+    position: relative;
+    width: 1190px;
+    margin: 0 auto;
+    height: 100%;
+}
+.header3-nav{
+    position: relative;
+    height: 40px;
+}
+.header3-nav li{
+    float: left;
+    padding: 0 20px;
+    position: relative;
+    height: 40px;
+}
+.header3-nav .long-nav{
+    position: absolute;
+    z-index: 500;
+    width: 192px;
+    height: 40px;
+    padding: 0 18px;
+    background: #cc0000;
+}
+.long-nav a{
+    text-align: left;
+    color: #ffffff;
+    font-size: 16px;
+    line-height: 40px;
+}
+.header3-nav li:nth-child(2){
+    margin-left: 258px;
+}
+.header3-nav .header3-navli a{
+    font-size: 16px;
+    color: #191919;
+    text-align: center;
+    line-height: 40px;
+}
+/* 导航结束 */
 /* 头部搜索导航顶部结束 */
