@@ -1,0 +1,187 @@
+// 添加Cookie
+function addWebCookie(name, value, options) {
+	if (arguments.length > 1 && name != null) {
+		if (options == null) {
+			options = {};
+		}
+		if (value == null) {
+			options.expires = -1;
+		}
+		if (typeof options.expires == "number") {
+			var time = options.expires;
+			var expires = options.expires = new Date();
+			expires.setTime(expires.getTime() + time * 1000);
+		}
+		document.cookie = encodeURIComponent(String(name)) + "=" + encodeURIComponent(String(value)) + (options.expires ? "; expires=" + options.expires.toUTCString() : "") + (options.path ? "; path=" + options.path : "") + (options.domain ? "; domain=" + options.domain : ""), (options.secure ? "; secure" : "");
+	}
+}
+// 获取Cookie
+function getWebCookie(name) {
+	if (name != null) {
+		var value = new RegExp("(?:^|; )" + encodeURIComponent(String(name)) + "=([^;]*)").exec(document.cookie);
+		return value ? decodeURIComponent(value[1]) : null;
+	}
+}
+// 移除Cookie
+function removeCookie(name, options) {
+	addWebCookie(name, null, options);
+}
+
+$(document).ready(function(){
+	echo.init({
+		offset:100,
+		throttle:250,
+		unload:false,
+		callback:function(element,op){}
+    });
+	$(window).scroll(function(){
+		var top=$(this).scrollTop();
+		var $sidebar=$('#sidebarTop').parent();
+		if(top>200){
+			$sidebar.fadeIn();
+		} else {
+			$sidebar.fadeOut();
+		}
+	});
+	//回到顶部
+	$('#sidebarTop').on('click',function(){
+		$('body,html').animate({'scrollTop':0},500)
+	});
+	// 商品详情页（商品介绍、参数规格等切换）
+	$('#myProductIntro>li').on('click',function(){
+		$(this).addClass('intro-select').siblings().removeClass('intro-select');
+	});
+	
+	// 头部导航菜单
+	$('#mytopInfo>li').on({
+		mouseover:function(){$(this).find('.mc-dpmore').show();},
+		mouseout:function(){$(this).find('.mc-dpmore').hide();}
+	});
+	
+	//购物车下拉
+	$('#clickCart').on({
+		mouseover:function(){
+			var $skipa=$(this).find('.addClassNames');
+			$skipa.addClass('clickCarBack').find('em').css({'background-position':'-66px -4px'}).parent().next('div').show();
+		},
+		mouseout:function(){
+			var $skipa=$(this).find('.addClassNames');
+			$skipa.removeClass('clickCarBack').find('em').css({'background-position':'-50px -4px'}).parent().next('div').hide();
+		}
+	});
+	
+	// 全部分类
+	$('#mmNav').on({
+		mouseover:function(){
+			$(this).find('.mm-left').show();
+		},
+		mouseout:function(){
+			var $mmleft = $(this).find('.mm-left');
+			if(!$mmleft.hasClass('act')){
+				$mmleft.hide();
+			}
+		}
+	}).on({
+		mouseover:function(){
+			$(this).addClass('act').find('.mm-right').show();
+			$(this).siblings().removeClass('act').find('.mm-right').hide();
+		},
+		mouseout:function(){
+			$(this).removeClass('act').find('.mm-right').hide();
+		}
+	},'.mm-series');
+});
+
+function czchat(obj){
+    var czlastData={},that=obj,type=obj.name||'HOMEPAGE_HEAD';
+    czlastData['type']=type;
+    switch(type){
+       case 'PRODUCT_BUOY':
+	    var productCode=$('#czproductCode').val();
+	    if(productCode){
+	    	czlastData['productCode']=productCode;
+	    }
+	    var logo=$('#czlogo').val();
+	    if(logo){
+	    	czlastData['logo']=logo;
+	    }
+	    var productLink=$('#czproductLink').val();
+	    if(productLink){
+	    	czlastData['productLink']=productLink;
+	    }
+	    var productName=$('#czproductName').val();
+	    if(productName){
+	    	czlastData['productName']=productName;
+	    }
+	    var price=$('#czprice').val();
+	    if(price){
+	    	czlastData['price']=price;
+	    }
+	    var finalPrice=$('#czfinalPrice').val();
+	    if(finalPrice){
+	    	czlastData['finalPrice']=finalPrice;
+	    }
+	    var brandName=$('#czbrandName').val();
+	    if(brandName){
+	    	czlastData['brandName']=brandName;
+	    }
+	    var activityName=$('#czactivityName').val();
+	    if(activityName){
+	    	czlastData['activityName']=activityName;
+	    }
+	    var vendorName=$('#czvendorName').val();
+	    if(vendorName){
+	    	czlastData['vendorName']=vendorName;
+	    }
+       //商品详情
+	   break;
+   }
+   $.ajax({
+       url:Host.UI+'users/getUserInfo.do',
+       type:'POST',
+       async:false,
+       timeout:5000,
+       dataType:'json',
+       data:$.param(czlastData),
+       success:function(e) {
+           if(e.data.login){
+        	   var $conpostData=$('#conpostData');
+        	   $conpostData.val(e.data.data);
+        	   $conpostData.parent().submit();
+           }else{//未登录
+               var loginurl=$('.mc-login').find('a').attr('href');
+               that.href=loginurl;
+           }
+       }
+   });
+}
+/**
+ * 秒杀倒计时时间
+ * 
+ * @param parEle
+ * @param endTime 设置结束时间设置结束时间
+ * @returns
+ */
+function takeCount(parEle,endTime,serverNowTime){
+	var leftsecond=0;
+	if(endTime != null) {
+        var nowtime = serverNowTime != null ? serverNowTime : new Date().getTime();
+        var parseEndTime=new Date(endTime);//可以修改为其它时间。
+		leftsecond=parseInt(parseEndTime.getTime()-nowtime);
+	}
+	$(parEle).find(".g-roc-time").each(function(){
+		var $this = $(this);
+		if(leftsecond<0){
+			leftsecond=0;
+		}
+		var hour=parseInt((leftsecond/(3600* 1000))%24);
+		var minute=parseInt((leftsecond/(60 * 1000)%60));
+		var second=parseInt((leftsecond / 1000)%60);
+		if(hour < 10){hour='0'+hour;}
+		if(minute < 10){minute='0'+minute;}
+		if(second < 10){second='0'+second;}
+		$this.find(".time-h").html(hour);
+		$this.find(".time-m").html(minute);
+		$this.find(".time-s").html(second);
+	});
+}

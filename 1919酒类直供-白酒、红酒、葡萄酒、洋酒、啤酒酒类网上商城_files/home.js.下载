@@ -1,0 +1,515 @@
+void function(){
+	$.get(Host.UI+"covers/fragment/secKill.do?_=" + new Date().getTime(), function(seckillHtml){
+		var $secKillContainer = $("#secKillContainer");
+		if (seckillHtml) {
+			$secKillContainer.html(seckillHtml);
+			getSeckillURL($secKillContainer);
+			updateSeckillReminingTime();
+		} else {
+			$secKillContainer.remove();
+		}
+	});
+	var $homeCoupon=$('#homeCoupon');
+    $.ajax({
+        url:Host.UI+'coupon/homeChosenCoupons.do',
+        type:'post',
+        dataType:'html',
+        success:function(result){
+        	if(result.length>1){
+        		$homeCoupon.removeClass('hm20').html(result);
+        	}else{
+        		$homeCoupon.addClass('hm20');
+        	}
+        },
+        error:function(data){
+        	$homeCoupon.addClass('hm20');
+            return false;
+        }
+    });
+    // 领取优惠券
+    $homeCoupon.on('click','.get-coupon-btn',function(){
+    	var that=this;
+        $.ajax({
+            url:Host.UI+'coupon/get.do',
+            type:'post',
+            dataType:'json',
+            data:{'couponId':that.id},
+            success:function(data){
+                if(data!=null&&data.code===727){
+                    window.location.href=data.data;
+                    return;
+                }else{
+                	if(data.code==0) {
+                		$(that).find('span').addClass('geted-btn').html('已领取');
+                		layer.msg('领取优惠券成功!');
+                	} else {
+                		layer.msg(data.msg);
+                	}
+                }
+            }
+        });
+    });
+	// 初始化楼层热销
+	var $hot = $('.l-hot');
+	var $hot_li = $hot.find('ul>li');
+	var $hot_img=$hot.prev('div').find('a');
+	$hot_li.each(function(){
+		var $this=$(this);
+		var index=$this.index();
+		if (!index) {
+			$this.addClass('on').siblings().removeClass('on');
+		}
+	});
+	$hot_img.each(function(){
+		var $this=$(this);
+		var index=$this.index();
+		if (!index) {
+			$this.addClass('curr').siblings().removeClass('curr');
+		}
+	});
+	// 楼层右边标签
+	$('[id^="ftagsList-"]>button').on('click',function(){
+		var $this=$(this);
+		if($this.hasClass('br-selected')){
+			return false;
+		}
+		var index=$this.index();
+		var $rhyplist=$('#rhyplist-'+this.name);
+		var $rhyother=$rhyplist.next();
+		var $ulResult=$rhyother.find('ul');
+		var $ulLoad=$ulResult.prev('div');
+		var lastReqParams=this.id;
+		$this.addClass('br-selected').siblings().removeClass('br-selected');
+		if(!index){
+			$rhyplist.removeClass('nonecurr');
+			$rhyother.addClass('nonecurr');
+		} else {
+			$rhyplist.addClass('nonecurr');
+			$rhyother.removeClass('nonecurr');
+			$ulLoad.removeClass('sj-hide');
+			$ulResult.html('');
+			var source='{{if list.length}}'
+			    +'{{each list as value i}}'
+                +'<li data-lazy-product="{{value.productCode}}">' 
+	                +'<div class="ml-pdtimg ml-apt10">' 
+	                    +'<a href="{{hrefURL}}p/{{value.productCode}}.html" target="_blank"><img src="{{value.logo}}?x-oss-process=image/resize,w_400"></a>' 
+	                +'</div>'
+	                +'<div class="ml-info">'
+	                    +'<p class="ml-pdtname" style="height: 38px;"><a href="{{hrefURL}}p/{{value.productCode}}.html" target="_blank"><span class="ml-pdtnamestore" data-lazy="shop-name"></span>{{value.productName}}</a></p>'
+	                    +'<p class="ml-pdtpri"><span class="ml-pri-curr" data-lazy="sale-price"><span class="mod-price">&yen;</span>{{moneyConverter value.finalPrice}}</span></p>'
+						+'<p>'
+						+'{{if value.productType == 1}}<span class="icon-product-type-b">自营</span>{{/if}}'
+						+'{{if value.productType == 0}}<span class="icon-product-type-a">商家</span>{{/if}}'
+						+'{{if value.haveCoupon}}<span class="icon-product-coupon">券</span>{{/if}}'
+						+ '</p>'
+	                +'</div>'
+	                +'<div class="{{value.otherClass}}"></div><div class="ml-time {{value.styleClass}}"></div>'
+	            +'</li>'
+			    +'{{/each}}{{else}}<li class="no-serach"><span><i class="icon-sno"></i>抱歉，没有找到相关的商品</span></li>{{/if}}';
+		    $.ajax({
+		        url:Host.UI+'product/listJson.do',
+		        type:'post',
+		        dataType:'json',
+		        data:lastReqParams,
+		        success:function(data){
+		        	console.log(data);
+		        	if(!data||!data.list){return;}
+		        	var render=template.compile(source);
+		        	$ulLoad.addClass('sj-hide');
+		        	$ulResult.html(render(data));
+		        }
+		    });
+		}
+		return false;
+	});
+	//楼层快捷导航
+	var $floorNav=$('#floorNav');
+	var $aNav=$floorNav.find('a');
+    var $yWine=$('#yWine .y-wine');
+    var $yWinep=$('#yWine');
+	var $gozTop=$('#gozTop');
+	//点击回到当前楼层
+	$aNav.on('click',function(){
+		var $that=$(this);
+		var t=$yWine.eq($that.index()).offset().top;
+		$('body,html').animate({'scrollTop':t},500);
+		$that.addClass('current').siblings().removeClass('current');
+		return false;
+	});
+	$(window).scroll(function(){
+		 var winH=$(window).height();
+		 var iTop=$(window).scrollTop();
+		 var ths=$yWinep.offset().top;
+		 var $slideNav=$floorNav.parent();
+		 if(iTop>=ths){
+			 $slideNav.fadeIn();
+			 $floorNav.fadeIn();
+			 $gozTop.fadeIn();
+			 //鼠标滑动式改变	
+			 $yWine.each(function(){
+			 	if(winH+iTop-$(this).offset().top>winH/2){
+			 		$aNav.removeClass('current').eq($(this).index()).addClass('current');
+			 	}
+			 })
+		 }else{
+			 $slideNav.fadeOut();
+			 $floorNav.fadeOut();
+			 $gozTop.fadeOut();
+		 }
+		 return false;
+	});
+	//回到顶部
+	$('#gozTop,#goyTop').on('click',function(){
+		$('body,html').animate({'scrollTop':0},500)
+	});
+	//猜你喜欢
+	likeProductList();
+	//加载购物车数量
+    $.post(Host.UI+'/my/shopCartNum.do',function(result){
+    	var totalNum=0;
+    	if(result != null && result.code === 727){
+    		totalNum=0;
+    	} else {
+    		totalNum=result.data.totalNum;
+    	}
+    	$('#cartTotalNum').html('('+(totalNum)+')');
+    },'json');
+
+    //判断商品类型标签
+	$('.product-type').each(function (i, v) {
+        var $v = $(v);
+        if("1" === $v.attr('productType')){
+			$v.addClass('icon-product-type-b');
+			$v.text('自营');
+		}else{
+            $v.addClass('icon-product-type-a');
+            $v.text('商家');
+		}
+    });
+
+	//判断是否展示优惠券标签
+	$('.icon-product-coupon').each(function (i, v) {
+		if('true' === $(v).attr('haveCoupon')){
+			$(v).show();
+		}else{
+			$(v).hide();
+		}
+    });
+
+	//动态设置店铺名样式
+	$('.r-toplist-act').each(function(){
+		$(this).find('.topnamestore').show();
+	});
+
+    /**
+	 * 判断是否展示时效标签
+     */
+    $.ajax({
+        url:Host.UI+'my/checkUserLogin.do',
+        type:'post',
+        dataType:'json',
+        success:function(result){
+        	if(result.code === 727){
+        		$('.product-delivery-icon').hide();
+			}else{
+                $('.product-delivery-icon').show();
+			}
+        }
+    });
+
+}();
+function getSeckillURL($obj){
+	$.ajax({
+		url:Host.UI+'seckill/seckillTabIndex.do',
+		type:'post',
+		dataType:'json',
+		success:function(data){
+			$obj.find('.go-sec-a').attr('href',Host.UI+'seckill/list.html?tabIndex='+data);
+		}
+	});
+}
+function likeProductList(page){
+    $.ajax({
+        url:Host.UI+'product/likeRecommend.do',
+        type:'post',
+        dataType:'json',
+        data:{productRecommend:'HOME_PAGE',page:page||1,showNum:10},
+        success:function(data){
+        	//获取商品是否可以使用优惠券的集合
+            var couponProductList=useCouponProductList(data);
+        	showContent(data,couponProductList);
+        	echo.init({offset:100,throttle:250,unload:false});
+        },
+		error:function(status){
+        	console.log(status)
+		}
+    });
+}
+
+/**
+ *
+ * @param data
+ * @returns map集合 key为商品id，value为是否可以使用优惠券
+ */
+function useCouponProductList(data){
+    var params=[];
+    data.result.forEach(function(value){
+    	var array={
+            productId:value.productId,
+            brandId:value.brandId,
+            categoryId:value.categoryId,
+            useChannel:'WEB'
+		};
+    	params.push(array);
+	})
+	var res;
+    $.ajax({
+        url:Host.UI+'coupon/is_use_coupon.do',
+        type:'post',
+        dataType:'json',
+        async:false,
+		contentType:'application/json;charset=utf-8',
+        data:JSON.stringify(params),
+        success:function(result){
+           res = result;
+        }
+    });
+    return res;
+}
+
+function getCouponProduct(data,couponProductList) {
+    for(var key in couponProductList){
+    	if(!couponProductList[key]){
+    		continue;
+		}
+		for(var index in data.result){
+            if(data.result[index].productId==key){
+                data.result[index].useCoupon=true;
+                break;
+            }
+		}
+    }
+    return data;
+}
+
+/**
+ *
+ * @param data
+ * @param couponProductList map集合 key为商品id，value为是否可以使用优惠券
+ * @returns {boolean}
+ */
+function showContent(data,couponProductList){
+    data=getCouponProduct(data,couponProductList);
+	var $likeProductList=$('#likeProductList');
+	var $likeDiv=$likeProductList.parent().parent();
+	if (!data||!data.result||!data.result.length){$likeDiv.removeClass('show').addClass('hide');;return false;}
+	var $likePager=$('#likePager');
+	var pagerSource='<a href="javascript:;" {{if hasPrePage}}onclick="likeProductList({{prePage}})"{{/if}} class="n-1 {{if !hasPrePage}}n1-cursor{{/if}}"></a><span><label>{{page}}</label>/{{totalPages}}</span><a href="javascript:;" {{if hasNextPage}}onclick="likeProductList({{nextPage}})"{{/if}} class="n-2 {{if !hasNextPage}}n2-cursor{{/if}}"></a>';
+	if (data.pagination.totalPages == 1) {$likePager.removeClass('show').addClass('hide');}
+	var source='{{if result.length}}'
+	    +'{{each result as value i}}'
+	    +'<li style="height: 320px;">'
+	        +'<div class="jzer-h-img same-img"><a href="{{hrefURL}}p/{{value.productCode}}.html" target="_blank"><img src="{{imgURL}}200x200.png" data-echo="{{imgURL}}{{value.logo}}?x-oss-process=image/resize,w_400"></a></div>'
+	        +'<h3 style="margin-top:10px;"><a href="{{hrefURL}}p/{{value.productCode}}.html" target="_blank">{{value.productName}}</a></h3>'
+			+'<div>'
+			+'{{if value.productType == 1}}<span class="icon-product-type-b">自营</span>{{/if}}'
+			+'{{if value.productType == 0}}<span class="icon-product-type-a">商家</span>{{/if}}'
+			+'{{if value.useCoupon}}<span class="icon-product-coupon">券</span>{{/if}}'
+			+'</div>'
+	        +'<p>&yen;<span>{{moneyConverter value.finalPrice}}</span></p>'
+	        +'<div class="{{value.otherClass}}"></div><div data-lazy="delivery-time-class" class="ml-time {{value.styleClass}}"></div>'
+	    +'</li>'
+	    +'{{/each}}{{/if}}';
+	$likeDiv.removeClass('hide').addClass('show');
+	$likePager.removeClass('hide').addClass('show');
+	var render=template.compile(source);
+	var pageRender=template.compile(pagerSource);
+	$likePager.html(pageRender(data.pagination));
+	$likeProductList.html(render(data));
+}
+
+// 自定义图片路径
+template.helper('imgURL',function(){
+    return Host.IMGURL;
+});
+//自定义UI链接
+template.helper('hrefURL',function(){
+    return Host.UI;
+});
+//自定模板
+template.helper('moneyConverter', function(value) {
+    return fen2yuan(value);
+});
+function fen2yuan(val) {
+    var str = (val / 100).toFixed(2) + '';
+    var intSum = str.substring(0, str.indexOf(".")).replace(/\B(?=(?:\d{3})+$)/g, ',');
+    var dot = str.substring(str.length, str.indexOf("."));
+    var ret = intSum + dot;
+    return ret;
+}
+$(function(){
+	var defaults={animation:'slide',slideshow:true,startAt:0,slideshowSpeed:4000,animationLoop:true,pauseOnHover:true,before:function(slider){
+        slider.pause();
+        slider.play();
+    },after:function(slider){
+        slider.pause();
+        slider.play();
+    }};
+	//创建轮播效果
+	var bannerOptions=$.extend({},defaults,{smoothHeight:true});
+	$('#homeFlexslider').flexslider(bannerOptions);
+
+    //------------------白酒商家--------------------
+	// 创建轮播效果
+	var hoimgOptions=$.extend({},defaults,{directionNav:false,controlNav:false,directionNav:false});
+	$('.hoimg-change').flexslider(hoimgOptions);
+
+	/*品牌和遮罩的切换*/
+	$('.homeBrand').on({
+		mouseover:function(){
+			$(this).find('.br-img-box1').siblings().show();
+		},
+		mouseout:function(){
+			$(this).find('.br-img-box1').siblings().hide();
+		}
+	},'.br-cont-rgi');
+		
+    //-------------------酒类专区页面显示隐藏-----------------
+	//关闭
+	$('.delbtn').click(function(){
+		$(this).parents('.y-wine').removeClass('act');
+	});
+	
+	//广告图切换
+	$('.l-hot>ul>li').hover(function(){
+		var $that=$(this);
+		var index=$that.index();
+		var parEle=$that.parents('.y-wine');
+		$that.addClass('on').siblings('li').removeClass('on');
+		parEle.find('.l-Img a').eq(index).addClass('curr').siblings('a').removeClass('curr');
+		echo.init({offset:100,throttle:250,unload:false});
+	});
+
+	//酒类型切换
+	var wineTypeTime,
+		_currindex = 0;
+	len = $('.br-tit').length;
+	function winetypeAuto(){
+		_currindex === len-1 ? (_currindex = 0) : _currindex++;
+		$('.br-tit').eq(_currindex).addClass('br-selected').siblings('.br-tit').removeClass('br-selected');
+		$('.br-cont-box').eq(_currindex).addClass('act').siblings('.br-cont-box').removeClass('act');
+		wineTypeTime = setTimeout(winetypeAuto, 5000);
+	}
+	// 热门品牌切换
+	$('#brTitList>li').on('click',function(){
+		clearTimeout(wineTypeTime);
+		var $this=$(this);
+		var _index=$this.index();
+		if(!$this.hasClass('br-selected')){
+			$this.addClass('br-selected').siblings().removeClass('br-selected');
+			_currindex = _index;
+			$('.br-cont-box').eq(_index).addClass('act').siblings('.br-cont-box').removeClass('act');
+			wineTypeTime = setTimeout(winetypeAuto, 5000);
+		}
+	});
+	$(document).on({
+		mouseenter:function(){
+			clearTimeout(wineTypeTime);
+		},
+		mouseleave:function(){
+			wineTypeTime = setTimeout(winetypeAuto, 5000);
+		}
+	},'.br-cont-box');
+	
+	wineTypeTime = setTimeout(winetypeAuto, 5000);
+	updateProductInfo();
+});
+function updateSeckillReminingTime(remainingMs){
+	var fixedRemainingMs = remainingMs ? remainingMs : new Date().getTime()+($('.u-sekill-box li.sec-com-box').data('remaining-ms')*1);
+	takeCount('.u-sekill-box', fixedRemainingMs);
+	setTimeout(updateSeckillReminingTime, 1000, fixedRemainingMs)
+}
+function updateProductInfo(){
+	var productCodes = {};
+	$('*[data-lazy-product]').each(function(){
+		productCodes[$(this).data('lazy-product')] = true;
+	});
+	var uniqueProductCode = [];
+	for(var key in productCodes){
+		if(/\d+/.test(key)){
+			uniqueProductCode.push(key);
+		}
+	}
+	ajaxLoadDepotProductInfo(uniqueProductCode, 26, 0);
+}
+function ajaxLoadDepotProductInfo(productCodes, size, page){
+	var productCodesOfNeedToQuery = productCodes.slice(page*size, (page + 1) * size);
+	if(productCodesOfNeedToQuery.length){
+		try {
+			jQuery.ajaxSettings.traditional = true;
+			$.post(Host.UI+'product/index.do', {
+				productCodes: productCodesOfNeedToQuery
+			}, function (result) {
+				if(result && result.success == true && result.data.length){
+					for(var resultDataIndex in result.data){
+						var depotProduct = result.data[resultDataIndex];
+						$('*[data-lazy-product="'+depotProduct.productCode+'"]').each(function(){
+							var $this = $(this);
+							$this.find('*[data-lazy]').each(function(){
+								var $dataLazy = $(this);
+                                var dataKey = $dataLazy.data('lazy');
+								if(dataKey == 'sale-price'){
+									if(depotProduct.finalPrice != undefined){
+										$dataLazy.html('<span class="mod-price">&yen;</span>' + (depotProduct.finalPrice/100).toFixed(2));
+									}
+								} else if (dataKey == 'origin-price'){
+									if(depotProduct.marketPrice != undefined){
+										$dataLazy.html('<span class="mod-price">&yen;</span>' + (depotProduct.marketPrice/100).toFixed(2));
+									}
+								} else if (dataKey == 'depot-name'){
+									if(depotProduct.depotName){
+										$dataLazy.html('【' + depotProduct.depotName + '】');
+									}
+								} else if (dataKey == 'shop-name'){
+									if(depotProduct.shopName){
+										$dataLazy.html(depotProduct.shopName);
+									}
+								} else if (dataKey == 'delivery-time-class'){
+									var deliveryTileStyleClass='ml-time ml-hour12 icon-hour12';
+									var $iconCover=$dataLazy.prev('div');
+									var iconCoveClass='icon-cover';
+									if (depotProduct.productType == 1) {
+										switch (depotProduct.predictArrival) {
+										case '19分钟送达':
+											deliveryTileStyleClass='ml-time ml-minute19 icon-minute19';
+											break;
+										case '29分钟送达':
+											deliveryTileStyleClass='ml-time ml-minute29 icon-minute29';
+											break;
+										case '59分钟送达':
+											deliveryTileStyleClass='ml-time ml-minute59 icon-minute59';
+											break;
+										case '十二小时之内发货':
+											deliveryTileStyleClass='ml-time ml-hour12 icon-hour12';
+											iconCoveClass='icon-cover icon-cover-w';
+											break;
+										default:
+											deliveryTileStyleClass='ml-time ml-hour12 icon-hour12';
+										    iconCoveClass='icon-cover icon-cover-w';
+										    break;
+										}
+										$iconCover.attr('class',iconCoveClass);
+										$dataLazy.attr('class',deliveryTileStyleClass);
+									}
+								}
+							});
+						});
+					}
+				}
+				ajaxLoadDepotProductInfo(productCodes, size, page + 1);
+			},'json');
+		} catch (e) {
+			ajaxLoadDepotProductInfo(productCodes, size, page + 1);
+		}
+	}
+}

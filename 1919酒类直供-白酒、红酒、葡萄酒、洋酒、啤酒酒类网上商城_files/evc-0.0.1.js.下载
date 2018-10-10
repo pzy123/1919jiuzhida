@@ -1,0 +1,171 @@
+(function(){
+	var remoteURL = "/webchat",
+		_trackGuid;
+		
+	function getCookie(c_name){
+		if (document.cookie.length>0){
+			c_start=document.cookie.indexOf(c_name + "=");
+			if (c_start!=-1){
+				c_start=c_start + c_name.length+1;
+				c_end=document.cookie.indexOf(";",c_start);
+				if (c_end==-1) c_end=document.cookie.length;
+				return unescape(document.cookie.substring(c_start,c_end));
+			}
+		}
+		return "";
+	}
+	function getCookies(){
+		if (document.cookie.length>0){
+			var cookies = document.cookie.split(";");
+			for(var i=0;i<cookies.length;i++){
+				cookies[i] = unescape(cookies[i]);
+			}
+			return cookies;
+		}
+		return [];
+	}
+	function setCookie(c_name, value, expiredays){
+		var exdate=new Date();
+		exdate.setDate(exdate.getDate() + expiredays);
+		document.cookie=c_name+ "=" + escape(value) + ((expiredays==null) ? "" : ";expires="+exdate.toGMTString());
+	}
+	
+	function getParaFromUrl() {
+	    var url,pos,parastr,para={};
+	    url = window.location.href;
+	    pos = url.indexOf("?")
+	    parastr = url.substring(pos+1);
+	    var paraArr=parastr.split("&");
+	    for(var i=0;i<paraArr.length;i++){
+	    	var paraOne=paraArr[i];
+	    	para[paraOne.substring(0,paraOne.indexOf("="))]=paraOne.substring(paraOne.indexOf("=")+1,paraOne.length);
+	    }
+	    return para;
+	}
+	
+	var webchat_visitor_guid = getCookie("webchat_visitor_guid");
+	if(webchat_visitor_guid == null || webchat_visitor_guid == ""){
+		webchat_visitor_guid = newGuid();
+		setCookie('webchat_visitor_guid',webchat_visitor_guid,999);
+	}
+	
+	var ready = function(){
+		trace("document.ready");
+//    	var url = window.location.href;
+//    	var referer = document.referrer;
+//		var scr = document.createElement('script');
+//		scr.type="text/javascript";
+//		scr.src = remoteURL + "/visitor?action=enter&url="+url+"&guid="+webchat_visitor_guid+
+//			"&referer="+referer;
+//		document.body.appendChild(scr);
+//    	new Image().src = remoteURL + "?action=enter&url="+url+"&guid="+webchat_visitor_guid+"&referer="+referer;
+//		setTimeout(pulse,300000);
+    }
+    
+    var pulse = function(){
+    	try{
+			remove("pulseScript");
+			var scr = document.createElement('script');
+			scr = document.createElement('script');
+			scr.id="pulseScript";
+			scr.type="text/javascript";
+			var now = new Date();
+			scr.src = remoteURL + "/visitor?action=pulse&trackGuid="+_trackGuid+"&guid="+webchat_visitor_guid+"&"+now.getTime();
+			document.body.appendChild(scr);
+		}catch(e){
+			alert(e.message);
+		}
+    }
+    
+    var enterSuccess = function(trackGuid){
+    	_trackGuid = trackGuid;
+    }
+    
+    var chatWindow;
+    var startToChat = function(queue, epid, urlFrom, noticeId, toUserId, params){
+    	if(chatWindow == undefined || chatWindow.closed){
+    		var time = new Date().getTime();
+    		var url = remoteURL + "/clientLogin.do?queue=" + queue + "&visitorGuid=" + webchat_visitor_guid + "&epid=" + epid + "&urlFrom=" + urlFrom;
+			if(toUserId){
+				url += "&toUserId" + toUserId;
+			}
+			if(noticeId){
+				url += "&noticeId" + noticeId;
+			}
+			location.href = url + "&" + time;
+    	}else{
+    		alert("\u8bf7\u52ff\u91cd\u590d\u5f00\u542f\u804a\u5929\u7a97\u53e3");
+    	}
+    }
+    
+    var startToMobileChat = function(queue, epid, urlFrom, toUserId, noticeId){
+		var time = new Date().getTime();
+		var url = remoteURL + "/mobileClientLogin.do?queue=" + queue + "&visitorGuid=" + webchat_visitor_guid + "&epid=" + epid + "&urlFrom=" + urlFrom;
+		if(toUserId){
+			url += "&toUserId" + toUserId;
+		}
+		if(noticeId){
+			url += "&noticeId" + noticeId;
+		}
+    	location.href = url + "&" + time;
+    }
+    
+    var acceptInvite = function(param){
+    	if(param.status == "inviting"){
+    		startToChat(param.queue, param.epid, 'agent-invite', undefined, param.invitedByAgentId);
+    	}
+    }
+    
+    function newGuid(){
+	    var guid = "";
+	    for (var i = 1; i <= 32; i++){
+	      var n = Math.floor(Math.random()*16.0).toString(16);
+	      guid +=   n;
+	      if((i==8)||(i==12)||(i==16)||(i==20))
+	        guid += "-";
+	    }
+	    return guid;    
+	}
+	function remove(id){
+		var elem=document.getElementById(id);
+		if(elem != null)
+	    	return elem.parentNode.removeChild(elem);
+	    return null;
+	}
+	
+	if (typeof console == "undefined") {
+	    this.console = {log: function (msg) { return false } };
+	}
+	
+	function trace(text){
+		console.log(text);
+	}
+    
+    var _ewc_ic;
+    var Fn = Function, global = Fn('return this')();
+    if (global._ewc_ic) {
+        throw new Error("There's already a _ewc_ic root here, please load the component only once.");
+    }
+    _ewc_ic = global._ewc_ic = {
+    	setCookie : setCookie,
+    	pulse : pulse,
+    	enterSuccess : enterSuccess,
+    	startToChat : startToChat,
+    	startToMobileChat : startToMobileChat,
+    	acceptInvite : acceptInvite,
+    	getParaFromUrl :getParaFromUrl
+    	
+    };
+    
+	if(document.readyState === "complete"){  
+		return setTimeout( ready, 1 );  
+    }
+    if(document.addEventListener){  
+        window.addEventListener("load", ready, false);  
+    }else if( document.attachEvent ) {  
+        window.attachEvent( "onload", ready );
+    }
+    
+    
+
+})();

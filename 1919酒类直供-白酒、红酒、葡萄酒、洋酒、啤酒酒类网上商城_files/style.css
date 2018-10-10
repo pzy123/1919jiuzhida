@@ -1,0 +1,80 @@
+/*精选广场*/
+.g-ban img{width:100%;}
+.m-cont{overflow:hidden;}
+.m-com{position:relative;width:580px;float:left;background:#fff;border:1px solid #e5e5e5;border-radius:5px;margin:0 26px 30px 0;}
+.m-list li:hover{-webkit-box-shadow:0 0 6px 2px #E5E5E5;-moz-box-shadow:0 0 6px 2px #E5E5E5;-o-box-shadow:0 0 6px 2px #E5E5E5;box-shadow:0 0 6px 2px #E5E5E5;}
+.no-righ-mar{margin-right:0!important;}
+.u-logo{margin:7px 20px 6px 10px;}
+.m-com-list{float:left;}
+.u-get{float:right;}
+.u-pri-deta{white-space:nowrap;text-overflow:ellipsis;line-height:20px;}
+.deta1{color:#ff7747;margin:42px 0 24px;}
+.deta3,.deta4{color:#999;}
+.deta4{line-height:36px;}
+.deta-pri{font-size:30px;font-weight:700;margin:0 2px;}
+.u-sift-get{position:relative;color:#fff;height:180px;width:160px;}
+.m-sift .u-grou-get{background:url(../images/img_cp_act.png) no-repeat right;background-size:100% 100%;}
+.m-sift .get-none .u-grou-get{background:url(../images/img_cp_def.png) no-repeat right;background-size:100% 100%;}
+.m-sift .get-none .get-none-lo{right:170px;}
+/*广场*/
+.g-content-grou{background:#fff;}
+.u-gro{margin-left:16px;}
+.gro1{margin:20px 0 16px;}
+.m-ground .u-grou-get{background:url(../images/get.png) no-repeat right;color:#fff;background-size:100% 100%;}
+.u-grou-btn{width:60px;height:140px;}
+.grou-btn{display:block;color:#fff;width:22px;line-height:22px;height:140px;box-sizing:border-box;margin:0 auto;padding:25px 0;}
+.grou-btn.act{padding:40px 0;}
+.m-grou{width:282px;margin:0 18px 18px 0;}
+.m-ground .get-none .u-grou-get{background:url(../images/none.png) no-repeat right;background-size:100% 100%;}
+.get-none .deta1{color:#bfbfbf;}
+.get-none-lo{display:none;}
+.get-none .get-none-lo{display:block;width:40px;height:40px;background:url(../images/none-lo.png) no-repeat;position:absolute;bottom:10px;}
+.m-ground .get-none .get-none-lo{right:70px;}
+.geted-btn{padding:36px 0;}
+/*******秒杀页面开始*********/
+.g-sec-head{border-bottom:none;}
+.g-content-sec{background:url(../images/bg.jpg) no-repeat;}
+.g-sec-ban{background:none;height:auto;padding:14px 0 10px;}
+/*秒杀时段*/
+.g-period{background:#fff;overflow:hidden;height:60px;}
+.sec-per-time{position:relative;}
+.u-per-nav{overflow:hidden;position:absolute;left:0;top:0;transition:all .6s;}
+#leftward{position:absolute;left:2px;height:60px;display:inline-block;line-height:60px;z-index:9;top:0;}
+#rightward{position:absolute;right:2px;height:60px;display:inline-block;line-height:60px;z-index:9;top:0;}
+.per-nav{line-height:60px;float:left;width:240px;position:relative;}
+.per-sing .even-img{display:none;}
+.even-img{position:absolute;z-index:2;top:-1px;}
+.even-img-left{left:-30px;}
+.even-img-right{right:1px;}
+.per-ad-ang{z-index:1;}
+.per-sing .ad-ang-left{border-top:60px solid #fff;border-left:31px solid transparent;position:absolute;left:-30px;}
+.per-sing .ad-ang-right{border-top:60px solid #fff;border-right:31px solid transparent;position:absolute;top:0;right:0;}
+.per-even .ad-ang-left{border-bottom:60px solid #fff;border-left:31px solid transparent;position:absolute;left:-30px;}
+.per-cont{text-align:center;}
+.per-nav-a{color:#666;font-size:16px;}
+.per-tit{border-radius:22px;background:#e5e5e5;font-size:14px;margin-right:20px;padding:2px 8px;}
+.nav-select{background:#c00;}
+.nav-select .ad-ang-left{border-bottom-color:#c00;}
+.nav-select .per-ad-ang{border-top-color:#c00;}
+.nav-select .per-tit{background:#fff;color:#c00;}
+.per-nav-a:hover,.nav-select a.category-name{color:#666;}
+.nav-select a,.nav-select .per-nav-a:hover{color:#fff;}
+/*秒杀商品*/
+.sec-com-box{width:290px;height:374px;border:none;margin:0 10px 10px 0;}
+.sec-com-box .m-com-list{float:none;}
+.sec-com{margin:0 auto;}
+.com-img-box{height:262px;}
+.com-img-box img{width:100%;max-height:100%;}
+.seckill-item-img:hover .sk-item-img{-webkit-transition:0 .4s ease;-moz-transition:transform .4s ease,-moz-transform .4s ease;transition:transform .4s ease,-webkit-transform .4s ease,-moz-transform .4s ease;-webkit-transform:translateY(-5px);-moz-transform:translateY(-5px);-ms-transform:translateY(-5px);transform:translateY(-5px);}
+.sec-com-box .com-tit{line-height:32px;height:32px;overflow:hidden;display:block;text-overflow:ellipsis;white-space:nowrap;margin:0 12px;padding:0;}
+.sec-get{height:80px;background:#ffe11a;overflow:hidden;position:relative;}
+.sec-pri-box{color:#e60012;margin-bottom:10px;}
+.sec-get .deta-pri,.sec-get .data-los{font-size:20px;}
+.sec-get .data-losm{font-size:12px;color:#999;}
+.sec-get .deta-type{color:#999;font-size:12px;text-decoration:line-through;}
+.sec-get-left{float:left;padding:12px;}
+.sec-get-right{width:110px;height:80px;background:url(../images/seck-icon.png) no-repeat 18px -12px;position:absolute;right:0;top:0;text-align:center;}
+.sec-get-w .sec-get-right{background-position:18px -124px;}
+.sec-get-w .sec-get-right a,.sec-get-btn a{position:absolute;width:92px;display:inline-block;height:80px;right:0;top:0;}
+.sec-get-w .sec-pro-num{background:#999;}
+.sec-ad-box{float:left;}

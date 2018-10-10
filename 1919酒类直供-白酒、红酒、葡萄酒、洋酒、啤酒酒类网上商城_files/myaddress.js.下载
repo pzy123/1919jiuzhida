@@ -1,0 +1,392 @@
+var lastReqParams={};
+var MapTool=(function(){
+	var constant={container:'container',$result:$('#results'),$inputkeyword:$('#inputKeyword'),$container:$('#container'),default_zoom:12,key:'F4bfb7ec82f386cf8541158ad5801138'}
+	// 初始化地图
+    var initMap=function(currentCity, zoom){
+        var map=new BMap.Map(constant.container,{enableMapClick:false});
+        // 默认地图初始化位置为北京
+		map.addControl(new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT}));
+		map.addControl(new BMap.ScaleControl());
+		map.enableScrollWheelZoom();
+		map.disableDoubleClickZoom();
+        map.centerAndZoom(currentCity||lastData.currentCity||'成都', zoom || constant.default_zoom);
+        window.map=map;
+    }
+	// 点击地图事件
+	var addEventAddress=function(){
+    	map.addEventListener('click',function(e){
+    		//清空搜索关键字
+    		constant.$inputkeyword.val('');
+    		map.clearOverlays();
+    		constant.$result.html('').parent().hide();
+    		constant.$container.addClass('map-event');
+			if(!e.overlay) {
+				$.ajax({
+					url:'https://api.map.baidu.com/geocoder/v2/?ak='+constant.key+'&location='+e.point.lat+','+e.point.lng+'&output=json&pois=0',
+					type:'get',
+					async:false,
+					dataType:'jsonp',
+					success:function(data,status) {
+						if(status == 'success' && data.status == 0) {
+							var marker=new BMap.Marker(e.point);
+							var content=setInfoContent(data.result);
+							var info=new BMap.InfoWindow(content);
+							map.addOverlay(marker);
+							marker.openInfoWindow(info);
+						}
+					}
+				});
+			}
+			return false;
+    	});
+    }
+	// 本地智能搜索提示
+	var localSearch=function(currentCity){
+    	map.centerAndZoom(currentCity, constant.default_zoom);
+    	var $searchResultPanel=$('#searchResultPanel');
+    	// 建立一个自动完成的对象
+    	var ac=new BMap.Autocomplete({'input':'inputKeyword','location':map});
+    	// 鼠标放在下拉列表上的事件
+        ac.addEventListener('onhighlight', function(e) {
+        	var str = '';
+    		var _value = e.fromitem.value;
+    		var value = '';
+    		if (e.fromitem.index > -1) {
+    			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+    		}    
+    		str = 'FromItem<br />index = ' + e.fromitem.index + '<br />value = ' + value;
+    		value = "";
+    		if (e.toitem.index > -1) {
+    			_value = e.toitem.value;
+    			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+    		}    
+    		str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+    		$searchResultPanel.html(str);
+        });
+        var myValue = "", local = {};
+        var setPlace = function() {
+            map.clearOverlays(); // 清除地图上所有覆盖物
+    		function myFun(){
+    			//获取第一个智能搜索的结果
+    			var pp = local.getResults().getPoi(0).point;
+    			map.centerAndZoom(pp, 18);
+    			map.addOverlay(new BMap.Marker(pp));
+    		}
+    		local=new BMap.LocalSearch(map,{onSearchComplete:myFun});
+    		local.search(myValue);
+        };
+        // 鼠标点击下拉列表后的事件
+        ac.addEventListener("onconfirm", function(e) {
+            var _value = e.item.value;
+            myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
+            $searchResultPanel.html("onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue);
+            setPlace();
+            $('#mapSearch').show().siblings().hide();
+    		layer.closeAll();
+    		layer.open({title:false,type:1,closeBtn:1,zIndex:'999',anim:2,shade:0.8,area:'800px',shadeClose:true,content:$('#myDialog')});
+    		MapTool.initMap(lastData.currentCity);
+    		MapTool.addEventAddress();
+    		MapTool.inputLocalSearch(lastData.currentCity,myValue);            
+        });
+    }
+	// 根据输入关键词搜索
+    var inputLocalSearch=function(currentCity,value){
+    	var markerArrays = [];
+    	map.centerAndZoom(currentCity, constant.default_zoom);
+		var local = new BMap.LocalSearch(map,{
+			renderOptions:{map:map,autoViewport:true,zoom:15,selectFirstResult:false},
+			pageCapacity:8,
+			onMarkersSet:function(pois){
+				for(var i=0,len=pois.length;i<len;i++){
+					(function(index) {
+						var curPoi=pois[index];
+						var curMarker=curPoi.marker;
+						markerArrays[index]=curMarker;
+						content=setInfoContent(curPoi);
+						if(!index){
+							var info=new BMap.InfoWindow(content);
+							curMarker.openInfoWindow(info);
+						}
+						curMarker.addEventListener('click', function(event) {
+							var info=new BMap.InfoWindow(content);
+							curMarker.openInfoWindow(info);
+							var position=curMarker.getPosition();
+						});
+					})(i);
+				}
+			},
+			onSearchComplete:function(results) {
+				map.clearOverlays();
+				constant.$result.html('').parent().show();
+				constant.$container.removeClass('map-event');
+				//判断状态是否正确
+				if (local.getStatus()==BMAP_STATUS_SUCCESS){
+					var s = [];
+					var len = results.getCurrentNumPois();
+					for (var i=0;i<len;i++){
+						var poi=results.getPoi(i);
+						s.push('<li id="pointWInfo'+i+'">');
+						if(!i){s.push('<span class="sort-span sorthot">');}else{s.push('<span class="sort-span">');}
+						s.push('<i class="icon-sortaddress"></i><label>'+String.fromCharCode(64+(i+1))+'</label></span>');
+						s.push('<div class="com-div map-list-tit">'+poi.title+'</div>');
+						if(typeof(poi.address)=="undefined"){
+    						s.push('<div class="com-div map-list-place">地址：'+((poi.province||'')+(poi.city||'')+poi.title)+'</div>');
+						}else{
+							s.push('<div class="com-div map-list-place">地址：'+poi.address+'</div>');
+						}
+						s.push('</li>');
+					}
+					constant.$result.html(s.join(''));
+					// 自定义弹出内容
+					for (var i=0;i<len;i++){
+						(function(index){
+							var poi=results.getPoi(index);
+							var content=setInfoContent(poi);
+							var info=new BMap.InfoWindow(content);
+							$('#pointWInfo'+index).on('click',function() {
+								markerArrays[index].openInfoWindow(info);
+							});
+						})(i);
+					}
+				}
+			}
+		});
+		local.search(value,{forceLocal:true});
+    }
+    var setInfoContent=function(poi){
+		var tempId="map-box-"+new Date().getTime();
+		var address=(poi.sematic_description||poi.address)||'';
+		var title=poi.formatted_address||poi.title||'';
+		var province=poi.province||poi.addressComponent.province||'';
+		var city=poi.city||poi.addressComponent.city||'';
+		var district=(poi.district||poi.addressComponent) ? poi.addressComponent.district:'';
+		var street=(poi.street||poi.addressComponent) ? poi.addressComponent.street:'';
+		var point=poi.location||poi.point;
+		if (typeof(address)=="undefined"){address=province+city+district+title;}
+		var sContent=['<div id="'+tempId+'" class="r-map-addsbox r-map-width"><div class="r-map-addsbox-title">'+title+'</div><div class="r-map-addsbox-address">地址：'+address+'</div><button class="r-map-addsbox-btn" onclick="MapTool.changeAddress({provinceText:\''+province+'\',cityText:\''+city+'\',districtText:\''+district+'\',lon:'+point.lng+',lat:'+point.lat+',destination:\''+title+'\',detailAddress:\''+address+'\'});" type="button">确认地址</button></div>'];		return sContent.join('');
+	}
+	// 刷新地址
+	var changeAddress=function(jsonReqParams){
+		$.ajax({
+		    type:'post',
+		    url:Host.UI+'my/refreshAddress.do',
+		    data:jsonReqParams,
+		    dataType:'json',
+		    success:function(result){
+		    	if(result&&result.code===0){
+		    		window.location.reload(true);
+		    		layer.closeAll();
+		    	}else{
+		    		layer.msg(result.msg);
+		    	}
+		    }
+		});
+	}
+	var loadHistoryAddress=function(){
+		$.ajax({
+		    type:'post',
+		    url:Host.UI+'my/addressList.do',
+		    data:{},
+		    dataType:'json',
+		    success:function(result){
+		    	var $qcodeWrap=$('#qcodeWrap');
+		    	if(!result.code){
+		    		var list=result.data.list;
+		    		if(list.length>0){
+		    			$qcodeWrap.next().show().siblings().hide();
+	    				var html=template('addressListData',result.data);
+	    				$qcodeWrap.next().html(html);
+	    				lastReqParams['qcodewrap']=$qcodeWrap.next();
+		    		} else {
+		    			$qcodeWrap.show().siblings().hide();
+		    			lastReqParams['qcodewrap']=$qcodeWrap;
+		    		}
+		    	}else{
+		    		$qcodeWrap.show().siblings().hide();
+		    		lastReqParams['qcodewrap']=$qcodeWrap;
+		    	}
+		    }
+		});
+	}
+    return {
+    	initMap:initMap,
+    	changeAddress:changeAddress,
+    	loadHistoryAddress:loadHistoryAddress,
+    	addEventAddress:addEventAddress,
+    	localSearch:localSearch,
+    	inputLocalSearch:inputLocalSearch
+    }
+})();
+void function(){
+	MapTool.loadHistoryAddress();
+	$.ajax({
+	    type:'post',
+	    url:Host.UI+'geo/listLetterCitys.do',
+	    data:{},
+	    dataType:'json',
+	    success:function(data){
+			var html=template('cityData',data);
+			$('#citylistData').html(html);
+	    }
+	});
+	var $citylistWrap=$('#citylistWrap');
+	var $diaCityName=$('#diaCityName');
+	$('#currentCity>a').on('click',function(){
+		lastData.currentCity=$diaCityName.html()||'成都';
+		$(this).next('div').show();
+		return false;
+	}).next('div').on('click',function(){
+		return false;
+	}).on('click','a',function(){
+		var cityName=this.name||'成都';
+		$diaCityName.html(cityName);
+		$citylistWrap.hide();
+		lastData.currentCity=cityName;
+		MapTool.initMap(lastData.currentCity);
+		MapTool.addEventAddress();
+		MapTool.localSearch(lastData.currentCity);
+	});
+	$(document).click(function(){
+		$citylistWrap.hide();
+	});
+	// 搜索城市自动提示
+	$('#dInputCity').autocomplete({
+		minLength:1,
+		source:function(req,resp){
+			var cityName=$.trim($('#dInputCity').val());
+			$.ajax({
+				type:'post',
+				url:Host.UI+'geo/cityComplement.do',
+				data:{name:cityName},
+				dataType:'json',
+				success:function(data){
+					var buffer=$.map(data,function(item){
+						var cityName=item.cityName;
+						var provinceName=item.provinceName;
+						return {name:cityName,province:provinceName};
+					});
+					resp(buffer);
+		 		 }
+			});
+		},
+		select:function(event,ui){
+	 		if(window.map){map.centerAndZoom(ui.item.name);}
+			$diaCityName.html(ui.item.name);
+			$citylistWrap.hide();
+			lastData.currentCity=ui.item.name;
+			MapTool.initMap(lastData.currentCity);
+			MapTool.addEventAddress();
+			MapTool.localSearch(lastData.currentCity);
+	 		return false;
+		}
+	}).data("ui-autocomplete" )._renderItem=function(ul,item){
+		return $('<li></li>').data('item.autocomplete',item).append('<a>'+item.name+'<span class="autocomplete-item-span">'+item.province+'</span></a>').appendTo(ul);
+	};
+}();
+$(document).ready(function(){
+	MapTool.initMap();
+	MapTool.addEventAddress();
+	MapTool.localSearch(lastData.currentCity);
+	loadUserInfo();
+	// 1919快喝
+	$('#myAddress,#hyLocation,#cityName').on('click',function(){
+		if(isLogined){
+			loadAddressAd();
+			layer.closeAll();
+			$('#inputKeyword').val('');
+			lastReqParams['qcodewrap'].show().siblings().hide();
+			layer.open({title:false,type:1,closeBtn:1,zIndex:'999',anim:2,shade:0.8,area:'800px',shadeClose:true,content:$('#myDialog')});
+		} else {
+			window.open(Host.CAS+'login.do?redirectURL='+window.location.href);
+		}
+		return false;
+	});
+	$('#searchBtn').on('click',function(){
+		var inputValue=$.trim($(this).prev('input').val());
+		if (inputValue=='') {return false;}
+		$('#mapSearch').show().siblings().hide();
+		layer.closeAll();
+		layer.open({title:false,type:1,closeBtn:1,zIndex:'999',anim:2,shade:0.8,area:'800px',shadeClose:true,content:$('#myDialog')});
+		MapTool.initMap(lastData.currentCity);
+		MapTool.addEventAddress();
+		MapTool.inputLocalSearch(lastData.currentCity,inputValue);
+	});
+	// 设置默认地址
+	$('#existAddress').on('click','.default',function(){
+		var $parent=$(this).parent();
+		$.ajax({
+		    type:'post',
+		    url:Host.UI+'my/defaultAddress.do',
+		    data:{id:this.id},
+		    dataType:'json',
+		    success:function(result){
+		    	if(result&&!result.code){
+		    		$parent.addClass('selected').siblings().removeClass('selected');
+		    		window.location.reload(true);
+		    		layer.closeAll();
+		    	}else{
+		    		layer.msg(result.msg);
+		    	}
+		    }
+		});
+	}).on('click','.edit',function(){window.open(Host.CAS+'#/member-receiver');});
+});
+function loadAddressAd(){
+	var source='{{if advertisementVos.length}}{{each advertisementVos as value i}}{{/each}}{{else}}{{/if}}';
+	$.ajax({
+		type:'post',
+		url:Host.UI+'my/addressAdposition.do',
+		data:{},
+		dataType:'json',
+		success:function(data){
+			var render=[];
+			if (data.advertisementVos) {
+				var list=data.advertisementVos;
+				var len=list.length;
+				if(len){
+					for(var i=0;i<len;i++){
+						render.push('<a href="'+list[i].url+'"><img src="'+Host.IMGURL+list[i].sourcePath+'" /></a>');
+					}
+				}
+			} else {
+				render.push('<a href="javascript::"><img src="'+Host.UI+'images/default-address.png" /></a>');
+			}
+			$('#dialogTop').html(render.join(""));
+			bannerAnimate(4000,600);
+		}
+	});
+}
+function bannerAnimate(intervalTime,runTime){  
+	var imgList=$('#dialogTop>a');
+	var len=imgList.length;
+	if (len>1) {
+		var nowImg=0;
+		//自动翻转
+		var timer=setInterval(turnNextImg,intervalTime);
+		//鼠标悬停在banner区域时停止自动翻
+		$('#dialogTop').on({
+			mouseover:function(){clearInterval(timer);},
+			mouseout:function(){timer=setInterval(turnNextImg,intervalTime);}
+		});
+		function turnNextImg(){
+			if(!imgList.is(':animated')){
+				imgList.eq(nowImg).animate({opacity:0,zIndex:2},runTime);
+				if(nowImg<len-1){
+					nowImg++;  	    
+				}else{
+					nowImg=0;
+				}
+				imgList.eq(nowImg).animate({opacity:1,zIndex:3},runTime);
+			}
+		}
+	}
+}
+function loadUserInfo(){
+    $.post(Host.UI + 'my/user_info.do',function (result) {
+        if (result.code === 0) {
+        	var cityName=result.data.cityName;
+            $('#diaCityName').attr('name',cityName).html(cityName);
+            $('#guessCity').attr('name',cityName).html(cityName);
+        }
+    },'json');
+}
