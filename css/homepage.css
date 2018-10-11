@@ -362,7 +362,7 @@ body{
     font-size: 16px;
     line-height: 40px;
 }
-.header3-nav li:nth-child(2){
+.header3-nav .header3-navli:nth-child(2){
     margin-left: 258px;
 }
 .header3-nav .header3-navli .header3-navli-a{
@@ -415,5 +415,139 @@ body{
 .long-nav1-li02 span a{
     color: #666666;
 }
+.long-nav1-li03{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 228px;
+    width: 710px;
+    height: 100%;
+}
+.long-nav1-li03-ul{
+    float: left;
+    height: 540px;
+    background: #ffffff;
+}
+.long-nav1-li03-li{
+    width: 100%;
+    overflow: hidden;
+}
+.long-nav1-li03-li .long-nav1-li03-li-span{
+    display: inline-block;
+    float: left;
+    padding-top: 14px;
+    width: 120px;
+    font-size: 14px;
+    text-align: center;
+    color: #666666;
+}
+.long-li03-div1{
+    float: right;
+    width: 580px;
+    border-top: 1px dashed #eeeeee;
+    padding: 10px 0;
+    display: block;
+}
+.long-li03-div2 span{
+    padding: 5px 12px 5px 0;
+    display: inline-block;
+    color: #666666;
+}
+.long-li03-div2 span a{
+    color: #0073e6;
+}
 /* 导航结束 */
 /* 头部搜索导航顶部结束 */
+/* banner图开始 */
+.banner-all{
+    position: relative;
+    width: 100%;
+    height: 540px;
+}
+.banner{
+    position: relative;
+    width: 100%;
+    z-index: 50;
+    margin: 0 auto;
+}
+.banner-imgall{
+    height: 540px;
+    overflow: hidden;
+    position: relative;
+}
+.banner-img{
+    height: 100%;
+    position: relative;
+    z-index: 0;
+}
+.banner-img ul{
+    width: 100%;
+    /* display: block; */
+    height: 100%;
+    /* position: relative;
+    left: -330px; */
+}
+.banner-img ul li{
+    width: 100%;
+    height: 540px;
+    /* margin-right: 0; */
+    float: left;
+    display: block;
+    vertical-align: middle;
+    position: relative;
+}
+.bannerimg-box{
+    width: 100%;
+    height: 540px;
+    position: relative;
+}
+.bannerimg-box02{
+    width: 1920px;
+    height: 540px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -270px 0 0 -960px;
+}
+.bannerimg-box02 a img{
+    width: 1920px;
+    height: 540px;
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+}
+.banner-img ul li a{
+    display: inline-block;
+    width: 100%;
+    height: 540px;
+}
+.banner-dian{
+    position: absolute;
+    z-index: 5;
+    bottom: 20px;
+    left: 50%;
+    display: inline-block;
+    background: rgba(0,0,0,0.3);
+    border-radius: 12px;
+    padding: 4px 8px;
+}
+.banner-dian i{
+    float: left;
+    display: inline;
+    margin: 0 6px;
+    border-radius: 50%;
+}
+.banner-dian .dianred{
+    background: #cc0000;
+}
+.banner-dian i{
+    /* position: relative; */
+    z-index: 600;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    display: block;
+    background: #ffffff;
+    opacity:0.6;
+}
+/* banner图结束 */
