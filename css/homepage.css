@@ -332,11 +332,21 @@ body{
     position: relative;
     height: 40px;
 }
-.header3-nav li{
+.header3-navli{
     float: left;
     padding: 0 20px;
     position: relative;
     height: 40px;
+    width: 100px;
+}
+.header3-nav .kuaihe{
+    display: inline-block;
+    background: url(../images/daohang01.jpg);
+    width: 112px;
+    height: 36px;
+    position: absolute;
+    top: -24px;
+    left: -24px;
 }
 .header3-nav .long-nav{
     position: absolute;
@@ -346,7 +356,7 @@ body{
     padding: 0 18px;
     background: #cc0000;
 }
-.long-nav a{
+.header3-nav .long-nav .long-nav-a{
     text-align: left;
     color: #ffffff;
     font-size: 16px;
@@ -355,11 +365,55 @@ body{
 .header3-nav li:nth-child(2){
     margin-left: 258px;
 }
-.header3-nav .header3-navli a{
+.header3-nav .header3-navli .header3-navli-a{
     font-size: 16px;
     color: #191919;
     text-align: center;
     line-height: 40px;
+}
+.long-nav1{
+    display: block;
+    background: rgba(245,245,245,.95);
+    width: 228px;
+    height: 540px;
+    position: absolute;
+    left: 0;
+    top: 40px;
+    z-index: 100;
+    border-top: 2px solid #cc0000;
+}
+.long-nav1-ul{
+    padding: 8px 0 0;
+    width: 100%;
+    height: 100%;
+}
+.long-nav1-li{
+    width: 100%;
+    padding: 6px 0;
+}
+.long-nav1-li01{
+    padding: 0 18px;
+}
+.long-nav1-li01 a{
+    color: #666666;
+    font-size: 16px;
+    /* display: block;
+    height: 40px; */
+    text-align: left;
+}
+.long-nav1-li02{
+    margin-top: 6px;
+    padding: 0 12px;
+}
+.long-nav1-li02 span:nth-child(1) a{
+    color: #e30b20;
+}
+.long-nav1-li02 span{
+    display: inline-block;
+    margin: 2px 8px;
+}
+.long-nav1-li02 span a{
+    color: #666666;
 }
 /* 导航结束 */
 /* 头部搜索导航顶部结束 */
