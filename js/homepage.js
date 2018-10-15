@@ -111,3 +111,36 @@
         $(this).css( "color","#666" )
     } )
     //热门品牌结束
+    //白酒专区开始
+    $(".whtiecenter1-down ul li").mouseenter( function(){
+        var index = $(this).index();
+        // console.log(index)
+        $(this).addClass("on").siblings().removeClass("on");
+        $(".whtiecenter1-top a").eq(index).show().siblings().hide();
+    } )
+
+    $(".whitecenter2-left ul li").hover( function(){
+        $(this).find("img").stop().animate( {"width":"110%"},300 );
+    },function(){
+        $(this).find("img").stop().animate( {"width":"100%"},300 );
+    } )
+
+    $(".whitecenter3-imgdiv").hover( function(){
+        $(this).find("img").stop().animate( {"width":"110%"},300 );
+    },function(){
+        $(this).find("img").stop().animate( {"width":"100%"},300 );
+    } )
+
+    $(".whitetop3 button").click( function(){
+        var index = $(this).index();
+        // console.log(index);
+        if( index > 0 ){
+            $(".whitecenter2").hide();
+            $(".whitecenter3").show();
+        }else{
+            $(".whitecenter3").hide();
+            $(".whitecenter2").show();
+        }
+       
+    } )
+    //白酒专区结束
