@@ -98,4 +98,16 @@
         // $(this).find("a").addClass("hotred").siblings().removeClass("hotred");
         $(".hotleft-down").eq(index).addClass("hotdisplay").siblings().removeClass("hotdisplay");
     } )
+
+    $(".hot-right-a").hover( function(){
+        $(this).css( "color","red" );
+    },function(){
+        $(this).css( "color","#666666" );
+    } )
+
+    $(".hot-right-box p").find("a").hover( function(){
+        $(this).css( "color","red" );
+    },function(){
+        $(this).css( "color","#666" )
+    } )
     //热门品牌结束

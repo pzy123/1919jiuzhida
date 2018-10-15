@@ -765,5 +765,509 @@ body{
     color: #666666;
 }
 /* 热门品牌结束 */
+/* 领劵中心开始 */
+.coupon{
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+.coupon-left{
+    float: left;
+    width: 230px;
+    height: 140px;
+    margin: 15px 0 0;
+}
+.coupon-left img{
+    width: 100%;
+    height: 100%;
+}
+.conput-right li{
+    position: relative;
+    width: 228px;
+    height: 138px;
+    margin: 15px 0 0px 10px;
+    border-radius: 0;
+    float: left;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+}
+.conput-ul-div1{
+    width: 176px;
+    margin: 0;
+    padding-left: 10px;
+    float: left;
+}
+.conput-li-div1{
+    margin: 20px 0 16px;
+    line-height: 20px;
+}
+.conput-li-div1 span{
+    font-size: 22px;
+    color: #ff7747;
+    font-weight: 700;
+    margin: 0 2px;
+}
+.conput-li-div2{
+    line-height: 20px;
+}
+.conput-li-div2 span{
+    color: #ce0000;
+}
+.conput-li-div3{
+    line-height: 20px;
+}
+.conput-li-div3 span{
+    color: #999999;
+}
+.conput-li-div4{
+    line-height: 36px;
+}
+.conput-li-div4 span{
+    color: #999999;
+}
+.conput-ul-div2{
+    float: right;
+    width: 42px;
+    background: #ff783c;
+}
+.conput-ul-div2 div{
+    width: 42px;
+    height: 138px;
+    border-radius: 5px;
+    text-align: center;
+
+}
+.conput-ul-div2 div span a{
+    display: block;
+    color: #fff;
+    width: 22px;
+    line-height: 22px;
+    height: 140px;
+    margin: 0 auto;
+    padding: 25px 0;
+}
+/* 领劵中心结束 */
+/* 限时秒杀开始 */
+.kill-topall{
+    background: #fff;
+    height: 60px;
+    margin: 20px 0 0;
+}
+.kill-topbox{
+    min-height: 60px;
+    line-height: 60px;
+    text-align: center;
+    padding: 0 20px;
+}
+.kill-top{
+    line-height: 60px;
+}
+.kill-top01{
+    float: left;
+}
+.kill-top01 span:nth-child(1){
+    font-size: 32px;
+}
+.kill-top01 span:nth-child(1) img{
+    vertical-align: middle;
+}
+.kill-top01 span:nth-child(2){
+    font-size: 14px;
+    color: #333;
+    padding-left: 10px;
+}
+.kill-top02{
+    float: right;
+    margin-left: 12px;
+}
+.h,.m,.s{
+     display: inline-block;
+    background: #333;
+    width: 24px;
+    height: 28px;
+    line-height: 28px;
+    border-radius: 3px;
+    font-size: 14px;
+    color: #FFF;
+    letter-spacing: 0;
+}
+.kill-top02 span{
+    font-weight: bold;
+}
+.kill-top03{
+    float: right;
+}
+.kill-top03 span{
+    font-size: 14px;
+    color: #333;
+    padding-left: 10px;
+}
+.kill-down{
+    position: relative;
+    background: #fff;
+    border-top: 1px solid #eee;
+}
+.kill-down-leftall{
+    overflow: visible;
+}
+.kill-down-leftall ul{
+    overflow: hidden;
+    width: 1000px;
+}
+.kill-down-leftall ul li{
+    width: 198px;
+    height: 320px;
+    border-radius: 0;
+    border-right: 1px solid #eee;
+    margin: 0;
+    float: left;
+}
+.kill-down-leftall ul li:nth-child(5){
+    border: 0;
+}
+.kill-down-li-div1{
+    margin: 0 auto;
+}
+.kill-down-li-div3{
+    width: 196px;
+    height: 178px;
+    text-align: center;
+}
+.kill-down-li-div3 img{
+    width: 100%;
+    height: 100%
+}
+.kill-down-li-div4{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: 20px;
+}
+.kill-down-li-div4 span{
+    line-height: 32px;
+    height: 32px;
+    overflow: hidden;
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0 12px;
+    padding: 0;
+    color: #666666;
+}
+.kill-down-li-div2{
+    background: #fff;
+    width: 198px;
+    height: 110px;
+}
+.kill-down-li-div5{
+    float: none;
+    padding: 0;
+    height: 50px;
+}
+.kill-down-li-div7{
+    margin-bottom: 10px;
+}
+.kill-down-li-div7 span:nth-child(1){
+    font-size: 20px;
+    font-weight: 700;
+    margin:0 12px;
+    font-family: arial;
+    float: left;
+    color: #e60012;
+}
+.kill-down-li-div7 span:nth-child(2){
+    font-size: 12px;
+    color: #999;
+    float: right;
+    line-height: 30px;
+    padding-right: 15px;
+}
+.kill-down-li-div6{
+    border: 0;
+    width: 88px;
+    height: 24px;
+    line-height: 24px;
+    background: #c00;
+    position: relative;
+    border-radius: 12px;
+    margin: 6px auto 0;
+    text-align: center;
+}
+.kill-down-li-div6 a span{
+    color: #fff;
+    line-height: 24px;
+    border-radius: 5px;
+}
+.kill-down-rightall{
+    width: 200px;
+    height: 320px;
+    background: #fff;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+.kill-down-rightall a div{
+    text-align: center;
+    margin: 12px 12px 15px;
+}
+/* 限时秒杀结束 */
+/* 楼层专区开始 */
+.floor{
+    position: relative;
+    zoom: 1;
+}
+/* 楼层专区结束 */
+/* 白酒专区开始 */
+.white-all{
+    width: 100%;
+    margin: 30px 0;
+}
+.whitetop{
+    height: 60px;
+    background: #fff;
+    padding: 0 20px;
+    border-bottom: 1px solid #eee;
+}
+.whitetop1{
+    float: left;
+}
+.whitetop1 s{
+    position: relative;
+    top: 0;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: #3B819D;
+    color: #FFF;
+    line-height: 30px;
+    font-size: 18px;
+    text-decoration: none;
+    border-radius: 2px;
+    text-align: center;
+}
+.whitetop1 h1{
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 60px;
+    padding: 0 10px;
+}
+.whitetop2{
+    float: left;
+}
+.whitetop2 ul li{
+    float: left;
+    font-size: 14px;
+    padding: 22px 5px 0;
+}
+.whitetop3{
+    float: right;
+    position: relative;
+    margin: 18px 0 18px 18px;
+}
+.whitetop3 button{
+    font-size: 12px;
+    height: 24px;
+    line-height: 24px;
+    float: left;
+    box-sizing: border-box;
+    min-width: 60px;
+    background: #f2f2f2;
+    border: 0;
+    border-radius: 2px;
+    margin-right: 10px;
+    padding: 0 10px;
+    text-align: center;
+    cursor: pointer;
+}
+.whitetop3 .whitetop3-red{
+    background: #c60000;
+    color: #fff;
+}
+.whitecenter{
+    height: 550px;
+}
+.whitecenter1{
+    position: relative;
+    width: 290px;
+    float: left;
+}
+.whtiecenter1-top{
+    width: 290px;
+    height: 550px;
+    background: #ffffff;
+}
+.whtiecenter1-top a{
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.whtiecenter1-top a img{
+    width: 290px;
+    height: 550px;
+    background: #ffffff;
+}
+.whtiecenter1-down{
+    position: absolute;
+    left: 0;
+    bottom: 15px;
+    z-index: 10;
+    padding: 0 9px;
+}
+.whtiecenter1-down ul li{
+    cursor: pointer;
+    float: left;
+    width: 60px;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    background: rgba(255,255,255,0.6);
+    margin: 10px 4px 0;
+}
+.whtiecenter1-down ul .on{
+    background: #fff;
+}
+.whitecenter2{
+    float: left;
+}
+.whitecenter2-left{
+    float: left;
+    width: 594px;
+    overflow: hidden;
+    background: #fff;
+    margin: 0 12px;
+}
+.whitecenter2-left ul{
+    overflow: hidden;
+    padding-bottom: 8px;
+    box-sizing: border-box;
+    background: #eee;
+    width: 603px;
+}
+.whitecenter2-left ul li{
+    position: relative;
+    width: 177px;
+    height: 255px;
+    margin: 0 1px 1px 0;
+    padding: 10px;
+    float: left;
+    color: #666;
+    background: #fff;
+}
+.whitecenter2-leftli1{
+    width: 160px;
+    height: 160px;
+    margin: 0 auto;
+    padding-top: 10px;
+}
+.whitecenter2-leftli1 img{
+    width: 100%;
+    height: 100%;
+}
+.whitecenter2-leftli2{
+    padding: 6px 0;
+}
+.whitecenter2-leftli2 p:nth-child(1){
+    height: 38px;
+    padding: 0;
+}
+.whitecenter2-leftli2 p:nth-child(2) span{
+    border: 1px solid #e50012;
+    border-radius: 4px;
+    color: #e50012;
+    margin-right: 5px;
+    font-size: 12px;
+}
+.whitecenter2-leftli2 p:nth-child(3) span{
+    font-weight: 700;
+    padding: 0;
+    font-size: 18px;
+    margin-right: 8px;
+    color: #e50012;
+    width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: bottom;
+}
+.whitecenter2-right{
+    float: right;
+    width: 282px;
+}
+.whitecenret2-right1{
+    height: 38px;
+    line-height: 38px;
+    color: #fff;
+    font-size: 16px;
+    background: #85ade9;
+    padding: 0 10px;
+}
+.whitecenret2-right2{
+    position: relative;
+    width: 100%;
+    height: 160px;
+}
+.whitecenret2-right2 img{
+    width: 100%;
+    height: 100%;
+}
+.whitecenret2-right3{
+    height: 348px;
+    padding: 1px 10px;
+}
+.whitecenret2-right3 li{
+    padding: 8px 0 9px;
+}
+.whitecenret2-right3-bigli div:nth-child(1){
+    width: 16px;
+    height: 16px;
+    color: #fff;
+    font-size: 12px;
+    display: block;
+    text-align: center;
+    line-height: 16px;
+    background: #c00;
+    float: left;
+}
+.whitecenret2-right3-bigli1{
+    float: right;
+    width: 246px;
+}
+.whitecenret2-right3-bigli1 div:nth-child(1){
+    float: left;
+    width: 88px;
+    height: 88px;
+    margin-left: 5px;
+}
+.whitecenret2-right3-bigli1 div img{
+    max-height: 88px;
+    max-width: 88px;
+    vertical-align: middle;
+}
+.whitecenret2-right3-bigli1 div:nth-child(2){
+    width: 148px;
+    margin-left: 5px;
+    float: left;
+}
+.whitecenret2-right3-bigli1 div:nth-child(2) a{
+    margin-bottom: 5px;
+    width: 149px;
+    white-space: normal;
+}
+.whitecenret2-right3-bigli1 div:nth-child(2) .span1{
+    border: 1px solid rgb(252, 143, 2);
+    border-radius: 4px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.whitecenret2-right3-bigli1 div:nth-child(2) .span2{
+    color: #c00;
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 0;
+}
+/* 白酒专区结束 */
 /* 中间部分结束 */
 /* 中下半部分结束 */
