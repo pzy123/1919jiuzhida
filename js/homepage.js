@@ -114,9 +114,9 @@
     //白酒专区开始
     $(".whtiecenter1-down ul li").mouseenter( function(){
         var index = $(this).index();
-        // console.log(index)
+        console.log(index)
         $(this).addClass("on").siblings().removeClass("on");
-        $(".whtiecenter1-top a").eq(index).show().siblings().hide();
+        $(this).parent().parent().prev().find("a").eq(index).show().siblings().hide();
     } )
 
     $(".whitecenter2-left ul li").hover( function(){
