@@ -73,7 +73,7 @@
             index = 0;
         }
         list.eq(index).addClass("dianred").siblings().removeClass("dianred");
-        console.log(index);
+        // console.log(index);
         img.eq(index).fadeIn(2000).siblings().fadeOut(1000);
     }
     list.hover( function(){
@@ -84,3 +84,18 @@
 		timer = setInterval( autoplay,2000 );
 	} )
     //banner结束
+    //热门品牌开始
+    $(".hot-smalllogo-box-ul li").hover( function(){
+        $(this).find(".hot-smalllgo-div2").show();
+    },function(){
+        $(this).find(".hot-smalllgo-div2").hide();
+    })
+
+    $(".hotleft-top ul li").click( function(){
+        var index = $(this).index();
+        console.log(index);
+        $(this).addClass("hotred").siblings().removeClass("hotred");
+        // $(this).find("a").addClass("hotred").siblings().removeClass("hotred");
+        $(".hotleft-down").eq(index).addClass("hotdisplay").siblings().removeClass("hotdisplay");
+    } )
+    //热门品牌结束
