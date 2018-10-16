@@ -1353,6 +1353,7 @@ body{
     padding-bottom: 8px;
     box-sizing: border-box;
 }
+
 .whitecenter3box ul li{
     width: 177px;
     height: 275px;
@@ -1407,5 +1408,79 @@ body{
     font-size: 12px;
 }
 /* 白酒专区结束 */
+/* 葡萄酒专区开始 */
+.putaojiu3box{
+    position: relative;
+    width: 900px;
+    background: #f5f5f5;
+    margin: 0;
+    float: right;
+}
+.putaojiu3box ul{
+    background: #fff;
+    width: 100%;
+    height: 558px;
+    margin: 0;
+    margin-left: 12px;
+    overflow: hidden;
+    padding-bottom: 8px;
+    box-sizing: border-box;
+}
+
+.putaojiu3box ul li{
+    width: 177px;
+    height: 275px;
+    box-sizing: border-box;
+    border-right: 1px solid #f5f5f5;
+    border-bottom: 1px solid #f5f5f5;
+    margin: 0 1px 1px 0;
+    padding: 10px;
+    position: relative;
+    float: left;
+    color: #666;
+    background: #fff;
+}
+/* 葡萄酒专区结束 */
 /* 中间部分结束 */
 /* 中下半部分结束 */
+/* 尾部开始 */
+.footer-all{
+    background-color: #FAFAFA;
+    border-top: solid 1px #CCC;
+}
+.footer-box1{
+    position: relative;
+    width: 1190px;
+    margin: 0 auto;
+}
+.footer-box2{
+    padding: 30px 0;
+    position: relative;
+    width: 1190px;
+    margin: 0 auto;
+}
+.footer-nav{
+    float: left;
+    width: 160px;
+    line-height: 22px;
+}
+.footer-nav h5{
+    margin-bottom: 5px;
+    font-size: 14px;
+    padding-right: 65px;
+    box-sizing: border-box;
+    font-weight: bold;
+    line-height: 22px;
+}
+.footer-nav ul li{
+    width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 65px;
+    box-sizing: border-box;
+}
+.footer-nav ul li a{
+    color: #666;
+}
+/* 尾部结束 */
