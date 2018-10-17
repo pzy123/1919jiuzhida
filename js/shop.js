@@ -144,6 +144,7 @@ window.onload = function(){
                      var cons4 = "";
                      var cons5 = "";
                      var con6 = "";
+                     var con7 = "";
                      for( var j = 0 ; j < pro2.length ; j++  ){
                          var pro3 = pro2[j]
                         //  console.log(pro3.id);
@@ -195,7 +196,11 @@ window.onload = function(){
                                         <div class="shop-div-img"><img src="../shopimages/shop (10).png" alt=""></div>
                                         <div class="shop-div-img"><img src="../shopimages/shop (11).png" alt=""></div>
                                         <div class="shop-div-img"><img src="../shopimages/shop (12).png" alt=""></div>
-                             `   
+                             `  
+                             con7 += `
+                                        <a href="###" class="button" pid="${pro3.id}" name="${pro3.shop1}" src="${pro3.src1}" price="${pro3.money1}">加入购物车</a>
+                                        <a href="###">立即购买</a>
+                             ` 
                          } 
                  }
                      $(".money-right01").html( cons1 );
@@ -204,8 +209,46 @@ window.onload = function(){
                      $(".smallul2 ul").html(cons4); 
                      $(".bigimg").html(cons5); 
                      $(".shop-right-top2").html(con6);
+                     $(".money05").html(con7);
              } 
              }   
           }
     })
 }
+//添加购物车功能  为按钮添加单击事件
+    var arr = [];// 存放多个商品
+    $(".money05").on( "click","a",function(){
+        var json = {
+            id:$(this).attr("pid"),
+            name:$(this).attr("name"),
+            src:$(this).attr("src"),
+            price:$(this).attr("price"),
+            count : 1
+        }
+        // console.log(json)
+        //取出cookie中的数据  判断当前点击的对象是否存在于cookie中  
+			//如果存在 就将该对象的count值++
+			var cookieInfo = getCookie("money05");
+			var flag = true;//假设值为true 可以添加push  
+			//如果有cookie数据  判断这个对象是否存在
+			if( cookieInfo.length != 0 ){
+				arr = cookieInfo;//[{},{},{},...]
+				//判断arr中是否含有当前单击的对象
+				for( var i = 0 ; i < arr.length ; i++ ){
+					if( json.id == arr[i].id ){
+						arr[i].count++;
+						flag = false;
+						break;
+					}
+				}
+			}
+			if( flag ){
+				arr.push( json );
+            }
+
+            setCookie("money05",JSON.stringify(arr));
+			console.log( document.cookie );
+			if( !confirm("确定-继续购物，取消-去购物车结算") ){
+				location.href = "shopcar.html";
+			}
+    } )
