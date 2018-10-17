@@ -41,6 +41,7 @@ $(".tex1 dl dd").find("a").click(function(){
 //搜索部分结束
 
 window.onload = function(){
+    // alert("请用服务器环境打开");
     $.ajax({
         type:"get",
         async:true,
@@ -89,6 +90,7 @@ window.onload = function(){
             }   
          }
     })
+
     //分页
     var index = 1;//设置默认的页数
     var pagenum = 12;//每页的数据量
@@ -102,7 +104,7 @@ window.onload = function(){
                 var pro = res[i];
                 var pro1 = pro.classify;
                 var pro2=pro.list;
-                console.log(pro2);
+                // console.log(pro2);
                 if( pro1 == "shangpinliebiao" ){
                     var cons = ""
                     for( var j = (index-1)*pagenum ; j < index*pagenum ; j++  ){
@@ -111,7 +113,7 @@ window.onload = function(){
                             cons += `
                                     <li>
                                         <div class="shop-list-div1">
-                                            <a href="###">
+                                            <a href="shop.html?pid=${pro3.id}">
                                                 <img src="${pro3.src1}" alt="">
                                             </a>
                                         </div>
@@ -121,7 +123,7 @@ window.onload = function(){
                                                 <span class="list-span2">${pro3.money}</span>
                                             </p>
                                             <p class="shop-list-p2">
-                                                <a href="###">${pro3.shop1}</a>
+                                                <a href="shop.html?pid=${pro3.id}">${pro3.shop1}</a>
                                             </p>
                                             <p class="shop-list-p3">
                                                 <span class="list-span3">自营</span>
@@ -144,17 +146,31 @@ window.onload = function(){
                             <a href="###">${z}</a>
                         </li>`;
 			}
-			$(".right-down-ul").html( page );
+            $(".right-down-ul").html( page );
+            $(".right-down-ul").children().eq(index-1).addClass("right-li-color");
             }   
          }
     })
     }
     showdate();
 
-    $(".right-down-ul").on( "click","LI",function(e){
+    $(".right-down-ul").on( "click","li",function(e){
     var e =  e||event;
     var target = e.target || e.srcElement;
         index = target.innerHTML;
-        showdate();
-}) 
+        // console.log($(this))
+        showdate(); 
+    }) 
+    $(".shop-list-ul").on( "mouseenter","li",function(e){
+        var e =  e||event;
+        var target = e.target || e.srcElement;
+        $(this).find("a").css( "color","red" );
+        $(this).css( "box-shadow","0px 0px 50px skyblue" );
+    }) 
+    $(".shop-list-ul").on( "mouseleave","li",function(e){
+        var e =  e||event;
+        var target = e.target || e.srcElement;
+        $(this).find("a").css( "color","#666" );
+        $(this).css( "box-shadow","" );
+    }) 
 } 

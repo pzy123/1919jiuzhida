@@ -516,8 +516,8 @@ body{
     opacity: 0.15;
     background-color: #000;
     border: 1px solid #fff;
-    width: 235px;
-    height: 210px;
+    width: 200px;
+    height: 200px;
 }
 .smallul{
     position: relative;
@@ -550,8 +550,8 @@ body{
     height: 58px;
 }
 .bigimg{
-    width: 537.143px;
-    height: 480px;
+    width: 400px;
+    height: 400px;
     top: 0px;
     left: 401.667px;
     display: none;
@@ -559,11 +559,12 @@ body{
     border: 1px solid #ddd;
     overflow: hidden;
     z-index: 999;
+    background: #fff;
     /* left: 368px */
 }
 .bigimg img{
-    left: -208px;
-    top: -174px;
+    left: 80px;
+    top: 50px;
     position: absolute;
 }
 .money-right-warp{
@@ -905,4 +906,177 @@ body{
     max-width: 910px;
     vertical-align: middle;
 }
+.shop-right-down{
+    max-width: 900px;
+    overflow: hidden;
+}
+.shop-right-down01{
+    height: 40px;
+    background: #f5f5f5;
+    border: 1px solid #e5e5e5;
+}
+.shop-right-down01 ul li{
+    float: left;
+    width: 110px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    border-right: none;
+}
+.shop-right-down02{
+    margin-bottom: 20px;
+}
+.shop-right-down05{
+    margin-top: 38px;
+    color: #666;
+}
+.span1{
+    font-size: 16px;
+    font-weight: 700;
+    display: block;
+    padding-left: 84px;
+}
+.span2{
+    display: block;
+    padding-left: 84px;
+}
+.shop-right-down06{
+    margin-bottom: 20px;
+    margin-top: 38px;
+    color: #666;
+}
+.shop-right-down06 span{
+    text-indent: 0;
+    padding-left: 20px;
+    color: #999;
+    display: block;
+}
 /* 商品详情结束 */
+/* 尾部开始 */
+.footer-all{
+    background-color: #FAFAFA;
+    border-top: solid 1px #CCC;
+    width: 100%;
+    height: 100%;
+    float: left;
+}
+.footer-box1{
+    width: 1190px;
+    margin: 0 auto;
+}
+.footer-box2{
+    padding: 30px 0;
+    position: relative;
+    width: 1190px;
+    margin: 0 auto;
+}
+.footer-nav{
+    float: left;
+    width: 160px;
+    line-height: 22px;
+}
+.footer-top{
+    width: 1190px;
+    height: 115px;
+}
+.footer-nav h5{
+    margin-bottom: 5px;
+    font-size: 14px;
+    padding-right: 65px;
+    box-sizing: border-box;
+    font-weight: bold;
+    line-height: 22px;
+}
+.footer-nav ul li{
+    width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 65px;
+    box-sizing: border-box;
+}
+.footer-nav ul li a{
+    color: #666;
+}
+.footer-down{
+    overflow: hidden;
+    border-top: 1px solid #E5E5E5;
+    margin-top: 30px;
+}
+.footer-down-left{
+    float: left;
+    width: 700px;
+    margin-top: 20px;
+}
+.footer-down-leftp1 span{
+    color: #ccc;
+    margin: 0 10px;
+}
+.footer-down-leftdiv1{
+    margin-top: 30px;
+    color: #999;
+    line-height: 14px;
+}
+.footer-down-leftdiv1 p{
+    color: #999;
+    margin-top: 14px;
+    line-height: 14px;
+}
+.footer-down-leftdiv2{
+    position: relative;
+    width: 300px;
+    margin-top: 14px;
+}
+.footer-down-leftdiv2 a{
+    display: inline-block;
+    text-decoration: none;
+    height: 20px;
+    line-height: 20px;
+}
+.footer-down-leftdiv2 img{
+    float: left;
+}
+.footer-down-leftdiv2 span{
+    float: left;
+    height: 20px;
+    line-height: 20px;
+    margin: 0;
+    color: #939393;
+}
+.footer-down-leftp2{
+    margin-top: 35px;
+}
+.footer-down-leftp2 a{
+    float: left;
+    margin-left: 7px;
+}
+.footer-down-right{
+    float: right;
+    width: 490px;
+    margin-top: 20px;
+}
+.footer-down-right-ul{
+    overflow: hidden;
+    margin: 30px 30px 0;
+}
+.footer-down-right-ul li{
+    width: 114px;
+    margin-right: 20px;
+    float: left;
+}
+.footer-down-right-ul li span{
+    display: block;
+    width: 100px;
+    text-align: center;
+}
+.footer-down-right-ul .footer-down-right-li{
+    width: 430px;
+    margin-top: 40px;
+    line-height: 22px;
+    margin-right: 20px;
+    float: left;
+    color: #999;
+}
+/* 尾部结束 */
