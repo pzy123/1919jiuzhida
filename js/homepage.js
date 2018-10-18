@@ -1,3 +1,6 @@
+    window.onload = function(){
+        alert("请用服务器环境打开，鼠标点击全部分类下的大标签可以进入店铺首页，商品列表");
+    }
     //顶部开始
     $(".header1-center span").hover( function(){
         $(this).find("a").css( "color","#e50012" );

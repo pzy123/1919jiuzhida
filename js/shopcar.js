@@ -6,7 +6,7 @@
 		
 		for( var i = 0 ; i < arr.length ; i++ ){
             var shopinfo = arr[i];
-            var res = shopinfo.price
+            var res = shopinfo.price;
             var num = res.replace(/[^0-9.]/ig,"");
 			str += '<div class="shop-item clearfix">'+
 					'<p class="fl"><input type="checkbox" class="ck"/></p>'+
@@ -25,7 +25,7 @@
 					'<em class="fl sumPrice">'+ (shopinfo.count * num) +'元</em>'+
 					'<i class="fl delBtn">删除</i>'+
 				'</div>'
-				console.log(res);
+				console.log(num);
 		}
         $(".shoplist").html( str );
  
